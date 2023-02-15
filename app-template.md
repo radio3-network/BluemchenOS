@@ -22,6 +22,8 @@ Each app runs with full administrative rights.
 
 These apps are NOT limited to launch an executable with a binary file. Apps can launch scripts or any other formats supported by the operating system. See the details on the related sections below such as the config.json file.
 
+English is used as the base language for documentation and source code. Translations for apps into other languages is possible throught the configuration file.
+
 
 ### Hardware considerations
 Apps are expected to be stored inside removable storage cards like MicroSD and similar.
