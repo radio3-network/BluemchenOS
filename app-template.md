@@ -20,6 +20,8 @@ Over the next sections are detailed each of these requirements.
 Given the limitations of hardware, there is not (yet) a multi-user platform with different access/admin rights.
 Each app runs with full administrative rights.
 
+These apps are NOT limited to launch an executable with a binary file. Apps can launch scripts or any other formats supported by the operating system. See the details on the related sections below such as the config.json file.
+
 
 ### Hardware considerations
 Apps are expected to be stored inside removable storage cards like MicroSD and similar.
@@ -38,13 +40,22 @@ This is the root folder where all files related to this app.
 For compatibility purposes it should follow these rules:
 + 8 characters in length
 + alpha-numeric characters plus "." "_" "-"
-+ Must start with a letter or number
++ must start with a letter or number
++ permanent name, should never be changed
++ must not clash with names for other existing apps
 
 For the purpose of describing the location of files inside this base folder we use the common Linux way of documenting relative file paths.
+
 
 ### Folder Media
 
 A folder for placing icons or sound files. Can be used by the app for any artwork resources that are used.
+This folder is written in lowercase characters. For example: "./media"
+
+
+### Folder Temp
+
+A folder for placing temporary files that are meant to be deleted from time to time. For example, cache files or files/databases downloaded temporarily from the network. This folder is optional, only required if needed for the app operation and can be created/deleted on runtime by the app.
 
 
 ### Launcher icons
@@ -65,5 +76,16 @@ When the app has special icon support for black&white screens such as ePaper the
 On that situation add the suffix "_bw" on the image. For example: "iconlauncher-XX_bw.png".
 
 
+### Config.json file
 
+The main config file for the app that permits customization for the specific hardware where the app is running.
+Settings on the config file can be made both by the app or by external apps, these files follow these requirements:
++ JSON format
++ placed inside the base folder
++ filename "config.json"
 
+Inside the config.json are expected the following data fields
++ "version" for version number
++ "title" to specify the app title (up to 30 ASCII characters)
++ "description", for a one line description (up to 100 characters) 
++ "execute", for the the command to be run when launched
