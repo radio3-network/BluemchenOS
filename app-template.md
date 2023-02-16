@@ -49,6 +49,8 @@ Each app can simultaneously be a dependency for other apps to function properly.
 
 For example, when there are only minor or patch releases then these dependencies can be upgraded automatically.
 
+The first version released to a public app repository should use 1.0.0 as version number.
+
 
 ## File/Folder structure summary
 
@@ -68,6 +70,9 @@ Below is an example of a simple app prepared for ESP32 with a single icon for th
 ./data/
 ./translate/
 ./translate/en_US.json
+./versions/
+./versions/1.0.0/
+./share/
 ./temp/
 ```
 
@@ -75,13 +80,16 @@ Below is an example of a simple app prepared for ESP32 with a single icon for th
 
 This is the root folder where all files related to this app.
 For compatibility purposes it should follow these rules:
-+ 8 characters in length
-+ alpha-numeric characters plus "." "_" "-"
++ 8 characters as maximum name length
++ ASCII alpha-numeric characters plus "." "_" "-"
++ only lower case characters
 + must start with a letter or number
 + permanent name, should never be changed
 + must not clash with names for other existing apps
 
 For the purpose of describing the location of files inside this base folder we use the common Linux way of documenting relative file paths.
+
+This folder name becames the Unique Identification (UID) of the app across the multiple repositories where it will be listed and available.
 
 
 ### Bin folder [./bin]
@@ -133,6 +141,30 @@ Filename for each translation file follows the IANA/Unicode language-tag-extensi
 It is mandatory to include a "en_US.json" inside the app to permit a common language available as reference for other translations.
 
 
+### Versions folder [./versions/]
+
+Since each app can be a dependency to other apps, some apps will primarily become library apps to be used as support for others. When an app requires a specific version of a dependency and another app requires another specific version of the dependency there is a clash of incompatibility. To address this topic when it occurs it is possible to include a folder with multiple versions of the same app/dependency.
+
+For example:
++ 1.0.0
++ 1.0.1
++ 1.0.2
++ 2.0.4
+
+These folders contain a copy of the app for a specific version. On the base folder is always placed the most recent version of the app. When an app specifies a dependency then the operating system will install the specified version and place a copy on the versions folder to assure that it will remain always available.
+
+Limitations of this method:
++ ./data/ and ./temp/ folder are version specific, there is no shared data between versions
++ ./data/ is duplicated across each version and might use cause impact on disk storage
+
+Dependencies should have these limitations in mind when being designed by authors to reduce duplication and waste of disk space. In the case of data that can be safely shared/used across different versions, please use the ./share folder for that purpose.
+
+
+### Share folder [./share]
+
+This is an **optional** folder for sharing data across multiple versions of the same app/dependency.
+
+
 ### Temp folder [./temp]
 
 A folder for placing temporary files that are meant to be deleted from time to time. For example, cache files or files/databases downloaded temporarily from the network. This folder is optional, only required if needed for the app operation and can be created/deleted on runtime by the app.
@@ -171,4 +203,17 @@ Inside the config.json are expected the following data fields
 + "repository" for the location of the official git repository
 + "license" to report the applicable license for the app
 + "copyright" to list the copyright author
++ "dependencies" a list of dependencies and supported versions
 + "execute", for the the command to be run when launched
+
+
+### Dependencies
+
+Each app can list inside the "config.json" the dependencies necessary for running.
+A dependency is another app that needs to be installed or available on the system.
+
+Each dependency is named using the UID (unique identification) of the app and the version range that is supported.
+
+Examples:
++ "acme-1.0.0" to require a dependency called "acme" with exact version 1.0.0
++ "acme-1.x.x" to require a dependency with the most recent releases of 1.
