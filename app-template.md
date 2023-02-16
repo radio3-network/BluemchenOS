@@ -36,6 +36,20 @@ The filesystem within these cards is typically FAT32 or ExFAT, can change but th
 The names selected for each file and folder should be as short as possible, to permit better compatibility of the app when being shared/accessed across different file systems. We recommend the names to not be bigger that 30 characters and to avoid unsupported characters. For example, if the filename can exist on Linux and Windows operating systems, then it can typically be used too inside Blümchen.
 
 
+### App versions
+
+Apps follow the semantic versioning (SemVer) specification defined at https://semver.org/
+
+In summary an app should follow a X.Y.Z versioning where:
++ X represents a change that breaks API compatibility
++ Y is a minor upgrade that adds new features on the API
++ Z a release with modifications/patches that DO NOT change the API
+
+Each app can simultaneously be a dependency for other apps to function properly. Therefore it is critical that all app authors understand SemVer and follow the specification mentioned here. SemVer enables upgrades to happen without breaking functionality on apps.
+
+For example, when there are only minor or patch releases then these dependencies can be upgraded automatically.
+
+
 ## File/Folder structure summary
 
 Below is an example of a simple app prepared for ESP32 with a single icon for the launcher.
@@ -96,6 +110,8 @@ Each of these scripts follow specific names:
 + upgrade.sh
 + uninstall.sh
 
+Scripts are files with extension .sh similar to Linux environments that will run specific actions from the command line. A template for each of these files will be included on the app template demonstration.
+
 
 ### Media folder [./media]
 
@@ -115,8 +131,6 @@ Each app can have translations for different languages. The base language for an
 Filename for each translation file follows the IANA/Unicode language-tag-extension definitions that can be found inside the ./ ain/ folder of the core.zip file that can be downloaded at https://www.iana.org/assignments/language-tag-extensions-registry/language-tag-extensions-registry
 
 It is mandatory to include a "en_US.json" inside the app to permit a common language available as reference for other translations.
-
-
 
 
 ### Temp folder [./temp]
