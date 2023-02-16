@@ -65,6 +65,7 @@ Below is an example of a simple app prepared for ESP32 with a single icon for th
 ./setup/install.sh
 ./setup/upgrade.sh
 ./setup/uninstall.sh
+./setup/schedule.sh
 ./media/
 ./media/iconlauncher-64px.png
 ./data/
@@ -108,6 +109,8 @@ Examples:
 + bin64-linux
 + bin64-osx
 
+The config.json defines the type of launch for the app but it is an optional value. When there is a binary with the exact name for the architecture where the app is running then that binary will be launched regardless of the value inside the config.json file.
+
 
 ### Setup folder [./setup]
 
@@ -117,8 +120,11 @@ Each of these scripts follow specific names:
 + install.sh
 + upgrade.sh
 + uninstall.sh
++ schedule.sh
 
 Scripts are files with extension .sh similar to Linux environments that will run specific actions from the command line. A template for each of these files will be included on the app template demonstration.
+
+The schedule script is intended for cases where the app needs to run at specific intervals of time, for example to check for new messages. The syntax and method for using this mechanism will later be documented.
 
 
 ### Media folder [./media]
@@ -201,10 +207,18 @@ Inside the config.json are expected the following data fields
 + "title" to specify the app title (up to 30 ASCII characters)
 + "description", for a one line description (up to 100 characters)
 + "repository" for the location of the official git repository
-+ "license" to report the applicable license for the app
-+ "copyright" to list the copyright author
++ "license" to report the applicable license for the app (SPDX.org format)
++ "copyright" to list the copyright authors
 + "dependencies" a list of dependencies and supported versions
 + "execute", for the the command to be run when launched
+
+Some of the fields can have multiple values. Each value on those fields should be separated using the JSON syntax. An example would be "dependencies": ["acme-1.0.0", "example-1.x.x", "test-5.0.2"].
+
+The list of fields where multiple values are supported:
++ repository
++ license
++ copyright
++ dependencies
 
 
 ### Dependencies
