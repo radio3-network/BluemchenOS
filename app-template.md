@@ -3,6 +3,12 @@ App Template
 
 This document is a work in progress intended to define the standard format for BlümchenOS apps.
 
+These apps have the following characteristics:
++ self-contained, can include their own source code on the app folder
++ shareable, can be shared throught internet or directly by users
++ upgradeable, using SemVer to assure automatic dependency upgrades
+
+
 ### Summary
 
 ESP32 is traditionally used for single-purpose applications that are uploaded by a computer inside a firmware that is not intended to change.
@@ -74,6 +80,7 @@ Below is an example of a simple app prepared for ESP32 with a single icon for th
 ./versions/
 ./versions/1.0.0/
 ./share/
+./source/
 ./temp/
 ```
 
@@ -169,6 +176,11 @@ Dependencies should have these limitations in mind when being designed by author
 ### Share folder [./share]
 
 This is an **optional** folder for sharing data across multiple versions of the same app/dependency.
+
+
+### Source folder [./source]
+
+The source code for the app. This is an optional folder but critical to assure a longer life for the app since it will not depend on the availability of an external server on the internet. It will be self-contained, capable of compiling itself for newer/different machines in the future. It includes all the source code and instructions required for compiling the app.
 
 
 ### Temp folder [./temp]
